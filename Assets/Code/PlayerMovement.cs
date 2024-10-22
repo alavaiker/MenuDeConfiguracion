@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool onground;
-    public float moveSpeed = 5f;
+    private float moveSpeed;
     public float jumpForce = 5f;
     public Slider speedSlider;
     private PlayerControls controls;
@@ -22,8 +22,10 @@ public class PlayerMovement : MonoBehaviour
         controls = new PlayerControls();
 
         // Se suscribe a las acciones
-        controls.Basic.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Basic.Move.canceled += ctx => moveInput = Vector2.zero;
+        // controls.Basic.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        // controls.Basic.Move.canceled += ctx => moveInput = Vector2.zero;
+        controls.Basic.Move.performed += ctx => MovePerformed(ctx);
+        controls.Basic.Move.canceled += ctx => MoveCalcelled(ctx);
         controls.Basic.Jump.performed += ctx => Jump();
     }
 
@@ -39,12 +41,31 @@ public class PlayerMovement : MonoBehaviour
         controls.Basic.Disable();
     }
 
-    // Setea la velocidad del jugador con la del slider del menu de pausa
-    private void Update() {
+    private void MovePerformed(InputAction.CallbackContext ctx)
+    {
+        CancelInvoke(nameof(Move));
+        moveInput = ctx.ReadValue<Vector2>();
         moveSpeed = speedSlider.value;
+        InvokeRepeating(nameof(Move), 0, 0.001f);
     }
 
-    private void FixedUpdate()
+    private void MoveCalcelled(InputAction.CallbackContext ctx)
+    {
+        CancelInvoke(nameof(Move));
+    }
+
+    // Setea la velocidad del jugador con la del slider del menu de pausa
+    //private void Update() {
+        //moveSpeed = speedSlider.value;
+    //}
+
+    //private void FixedUpdate()
+    //{
+        //Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y);
+        //rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    //}
+
+    private void Move()
     {
         Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y);
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);

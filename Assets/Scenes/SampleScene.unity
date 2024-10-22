@@ -1624,10 +1624,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1832458497}
   m_HandleRect: {fileID: 302907165}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 250
+  m_MinValue: 0
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 10
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2499,7 +2499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c02aadc15ee434f45bd37810399f7ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
   jumpForce: 5
   speedSlider: {fileID: 911288387}
 --- !u!1 &2092481861
